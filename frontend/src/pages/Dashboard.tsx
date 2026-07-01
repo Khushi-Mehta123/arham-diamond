@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import api from '../lib/api';
 import { Plus, Edit, Trash2, ShieldAlert, ArrowLeft, ArrowRight, Eye, Grid } from 'lucide-react';
 
@@ -19,8 +19,7 @@ export const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  
-  const navigate = useNavigate();
+
   const limit = 10;
 
   useEffect(() => {

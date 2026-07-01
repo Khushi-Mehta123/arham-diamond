@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Diamond, Menu, X, LogOut, LogIn, LayoutDashboard, Wrench, Search } from 'lucide-react';
+import { Diamond, Menu, X, LogOut, LogIn, LayoutDashboard, Wrench } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { isAuthenticated, isAdmin, user, logout } = useAuth();

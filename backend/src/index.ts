@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
+import fs from 'fs';
 import { connectDB } from './config/db';
 import authRoutes from './routes/auth';
 import sectionRoutes from './routes/sections';

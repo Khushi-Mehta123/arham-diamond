@@ -20,9 +20,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static uploads
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+let uploadDir;
 
+if (process.env.VERCEL) {
+  uploadDir = "/tmp/uploads";
+} else {
+  uploadDir = path.join(__dirname, "../../uploads");
+}
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+app.use('/uploads', express.static(uploadDir));
 // Routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/sections', sectionRoutes);
 app.use('/api/fields', fieldRoutes);

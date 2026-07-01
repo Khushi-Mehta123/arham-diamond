@@ -6,9 +6,12 @@ import { authenticateToken, requireAdmin } from '../middleware/auth';
 
 const router = express.Router();
 
-const uploadDir = path.join(__dirname, '../../uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+let uploadDir;
+
+if (process.env.VERCEL) {
+  uploadDir = "/tmp/uploads";
+} else {
+  uploadDir = path.join(__dirname, "../../uploads");
 }
 
 const storage = multer.diskStorage({

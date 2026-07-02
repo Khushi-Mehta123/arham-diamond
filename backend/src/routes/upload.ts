@@ -1,32 +1,24 @@
 import express, { Request, Response } from 'express';
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs';
+import { v2 as cloudinary } from 'cloudinary';
 import { authenticateToken, requireAdmin } from '../middleware/auth';
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const router = express.Router();
 
-let uploadDir;
-
-if (process.env.VERCEL) {
-  uploadDir = "/tmp/uploads";
-} else {
-  uploadDir = path.join(__dirname, "../../uploads");
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
-});
+// Use memory storage to store files in memory as buffer
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
   fileFilter: (req, file, cb) => {
     const filetypes = /jpeg|jpg|png|webp|gif|mp4|mov|avi|mkv|webm/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -39,7 +31,7 @@ const upload = multer({
 });
 
 router.post('/', authenticateToken, requireAdmin, (req: Request, res: Response) => {
-  upload.single('file')(req, res, (err) => {
+  upload.single('file')(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       return res.status(400).json({ message: `Multer upload error: ${err.message}` });
     } else if (err) {
@@ -50,8 +42,36 @@ router.post('/', authenticateToken, requireAdmin, (req: Request, res: Response) 
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const fileUrl = `/uploads/${req.file.filename}`;
-    return res.json({ url: fileUrl });
+    try {
+      const isVideo = req.file.mimetype.startsWith('video');
+      const resourceType = isVideo ? 'video' : 'image';
+
+      // Upload buffer to Cloudinary using upload_stream
+      const uploadToCloudinary = (): Promise<any> => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            {
+              resource_type: resourceType,
+              folder: 'arham_diamonds',
+            },
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result);
+              }
+            }
+          );
+          stream.end(req.file!.buffer);
+        });
+      };
+
+      const result = await uploadToCloudinary();
+      return res.json({ url: result.secure_url });
+    } catch (uploadErr: any) {
+      console.error('Cloudinary upload error:', uploadErr);
+      return res.status(500).json({ message: `Cloudinary upload failed: ${uploadErr.message || uploadErr}` });
+    }
   });
 });
 

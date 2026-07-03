@@ -22,7 +22,7 @@
             "source": "/(.*)",
             "destination": {
                 "type": "service",
-                "service": "frontend/index.html"
+                "service": "frontend"
             }
         }
     ]

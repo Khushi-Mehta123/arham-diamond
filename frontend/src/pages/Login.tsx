@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import { Lock, User, AlertCircle, Loader2 } from 'lucide-react';
 
@@ -24,7 +24,7 @@ export const Login: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('/api/auth/login', { username, password });
+      const response = await api.post('/api/auth/login', { username, password });
       const { token, user } = response.data;
       login(token, user);
       navigate('/admin');

@@ -3,11 +3,12 @@
     "services": {
         "frontend": {
             "root": "frontend",
-            "framework": "vite"
+            "framework": "vite",
+            "entrypoint": "dist/index.html"
         },
         "backend": {
             "root": "backend",
-            "entrypoint": "src/index.js"
+            "entrypoint": "src/index.ts"
         }
     },
     "rewrites": [

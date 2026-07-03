@@ -132,11 +132,14 @@ export const DiamondDetail: React.FC = () => {
 
           {/* Primary Video Player */}
           {primaryVideo ? (
-            <div className="glass-card rounded-2xl overflow-hidden border border-white/5 bg-slate-950/60 relative">
-              <div className="absolute top-3 left-3 z-10 flex items-center space-x-1.5 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/10">
+            <div className="relative rounded-2xl overflow-hidden border border-white/5 bg-slate-950/60">
+              <div className="absolute top-3 left-3 z-20 flex items-center gap-2 bg-black/60 backdrop-blur-sm px-3 py-2 rounded-full border border-white/10">
                 <Play className="w-3 h-3 text-indigo-400 fill-indigo-400" />
-                <span className="text-[10px] font-bold text-white uppercase tracking-wider">360° View</span>
+                <span className="text-[10px] font-bold text-white uppercase tracking-wider">
+                  360° View
+                </span>
               </div>
+
               <video
                 src={primaryVideo}
                 controls
@@ -144,7 +147,7 @@ export const DiamondDetail: React.FC = () => {
                 muted
                 loop
                 playsInline
-                className="w-full aspect-[4/3] object-cover bg-black"
+                className="w-full aspect-[4/3] bg-black"
               />
             </div>
           ) : (
@@ -177,11 +180,10 @@ export const DiamondDetail: React.FC = () => {
                     <button
                       key={index}
                       onClick={() => setActiveImageIndex(index)}
-                      className={`rounded-lg overflow-hidden border aspect-square transition-all ${
-                        activeImageIndex === index
-                          ? 'border-indigo-500 ring-2 ring-indigo-500/30 opacity-100'
-                          : 'border-white/10 opacity-50 hover:opacity-80'
-                      }`}
+                      className={`rounded-lg overflow-hidden border aspect-square transition-all ${activeImageIndex === index
+                        ? 'border-indigo-500 ring-2 ring-indigo-500/30 opacity-100'
+                        : 'border-white/10 opacity-50 hover:opacity-80'
+                        }`}
                     >
                       <img src={img} alt={`View ${index + 1}`} className="w-full h-full object-cover" />
                     </button>
@@ -207,7 +209,7 @@ export const DiamondDetail: React.FC = () => {
 
             // Only show fields that have a value AND aren't the primary media fields (those are on the left)
             const visibleFields = secFields.filter((f) => {
-              const val = diamond.dynamicData?.[f.name];
+              const val = String(diamond.dynamicData?.[f.name]);
               const hasValue = val !== undefined && val !== null && val !== '';
               // Skip primary video and image — they're handled in left panel
               return hasValue && !MEDIA_FIELD_NAMES.has(f.name);
@@ -260,11 +262,10 @@ export const DiamondDetail: React.FC = () => {
                               </a>
                             )}
                             {field.type === 'boolean' && (
-                              <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${
-                                value === true || value === 'true'
-                                  ? 'bg-emerald-950/40 text-emerald-300 border-emerald-900/40'
-                                  : 'bg-slate-900 text-slate-400 border-slate-800'
-                              }`}>
+                              <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${value === true || value === 'true'
+                                ? 'bg-emerald-950/40 text-emerald-300 border-emerald-900/40'
+                                : 'bg-slate-900 text-slate-400 border-slate-800'
+                                }`}>
                                 {value === true || value === 'true' ? 'Yes' : 'No'}
                               </span>
                             )}

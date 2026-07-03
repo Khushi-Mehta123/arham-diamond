@@ -205,7 +205,7 @@ export const DiamondList: React.FC = () => {
             <SlidersHorizontal className="w-4 h-4" />
             <span>Filters ({Object.keys(activeFilters).length})</span>
           </button>
-          
+
           {(isSearchMode || isFilterMode) && (
             <button
               onClick={handleReset}
@@ -272,7 +272,7 @@ export const DiamondList: React.FC = () => {
                     )}
                   </div>
                 ))}
-                
+
                 <button
                   type="submit"
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg text-xs font-bold tracking-wide transition-colors"
@@ -399,9 +399,9 @@ export const DiamondList: React.FC = () => {
                   >
                     {/* Image frame */}
                     <div className="h-48 bg-slate-900 relative overflow-hidden border-b border-white/5">
-                      {d.images && d.images.length > 0 ? (
+                      {d.dynamicData.diamond_image ? (
                         <img
-                          src={d.images[0]}
+                          src={d.dynamicData.diamond_image}
                           alt={d.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />

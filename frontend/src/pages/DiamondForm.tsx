@@ -306,15 +306,6 @@ export const DiamondForm: React.FC = () => {
               {/* 3 — Dynamic Image Fields */}
               {imageFields.length > 0 && (
                 <div className="glass-card rounded-2xl overflow-hidden">
-                  <div className="bg-gradient-to-r from-violet-950/60 to-slate-900/80 px-7 py-5 border-b border-white/5 flex items-center gap-3">
-                    <div className="p-2 bg-violet-600/20 rounded-xl border border-violet-500/30">
-                      <ImageIcon className="w-5 h-5 text-violet-400" />
-                    </div>
-                    <div>
-                      <p className="text-lg font-bold text-white leading-tight">Diamond Images</p>
-                      <p className="text-sm text-slate-400 mt-0.5">Primary showcase photos</p>
-                    </div>
-                  </div>
 
                   <div className="p-7 space-y-6">
                     {imageFields.map((field) => {

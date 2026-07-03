@@ -123,9 +123,9 @@ export const Dashboard: React.FC = () => {
                     {diamonds.map((d) => (
                       <tr key={d._id} className="hover:bg-white/[0.01] transition-colors">
                         <td className="px-6 py-4">
-                          {d.images && d.images.length > 0 ? (
+                          {d.dynamicData.diamond_image ? (
                             <img
-                              src={d.images[0]}
+                              src={d.dynamicData.diamond_image}
                               alt={d.name}
                               className="w-12 h-12 object-cover rounded-lg border border-white/10"
                             />

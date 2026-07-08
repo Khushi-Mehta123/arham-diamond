@@ -12,14 +12,14 @@ export const connectDB = async () => {
     console.log('MongoDB Connected successfully.');
 
     // Seed admin user if it doesn't exist
-    const adminCount = await User.countDocuments({ role: 'admin' });
-    if (adminCount === 0) {
-      console.log('No admin users found. Seeding default admin...');
-      const passwordHash = await bcrypt.hash('admin123', 10);
-      const defaultAdmin = new User({ username: 'admin', passwordHash, role: 'admin' });
-      await defaultAdmin.save();
-      console.log('Default admin seeded successfully (username: admin, password: admin123).');
-    }
+    // const adminCount = await User.countDocuments({ role: 'admin' });
+    // if (adminCount === 0) {
+    //   console.log('No admin users found. Seeding default admin...');
+    //   const passwordHash = await bcrypt.hash('admin123', 10);
+    //   const defaultAdmin = new User({ username: 'admin', passwordHash, role: 'admin' });
+    //   await defaultAdmin.save();
+    //   console.log('Default admin seeded successfully (username: admin, password: admin123).');
+    // }
 
     // Seed default "Diamond Media" section + fields if none exist
     const sectionCount = await Section.countDocuments();

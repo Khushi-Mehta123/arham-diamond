@@ -15,7 +15,7 @@ router.get('/search', async (req: Request, res: Response) => {
 
     const regex = new RegExp(q, 'i');
     const fields = await Field.find();
-    
+
     // Search in name or any of the dynamic fields
     const searchConditions: any[] = [
       { name: { $regex: regex } }
@@ -37,7 +37,7 @@ router.get('/search', async (req: Request, res: Response) => {
 router.get('/filter', async (req: Request, res: Response) => {
   try {
     const filterQuery: any = {};
-    
+
     Object.keys(req.query).forEach(key => {
       if (key !== 'page' && key !== 'limit') {
         const val = req.query[key];
@@ -46,7 +46,7 @@ router.get('/filter', async (req: Request, res: Response) => {
         }
       }
     });
-
+    console.log("filterQuery", filterQuery)
     const diamonds = await Diamond.find(filterQuery).sort({ createdAt: -1 });
     return res.json(diamonds);
   } catch (err) {
@@ -141,7 +141,7 @@ router.put('/:id', authenticateToken, requireAdmin, async (req: Request, res: Re
 
     if (name !== undefined) diamond.name = name;
     if (images !== undefined) diamond.images = images;
-    
+
     if (dynamicData !== undefined) {
       // Validate required dynamic fields
       const fields = await Field.find();

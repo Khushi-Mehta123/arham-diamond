@@ -9,7 +9,7 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -113,11 +113,6 @@ export const Login: React.FC = () => {
           </button>
         </form>
 
-        <div className="mt-8 text-center">
-          <p className="text-xs text-slate-500">
-            Default credentials are set to <code className="bg-slate-900 px-1 py-0.5 rounded text-indigo-300">admin</code> / <code className="bg-slate-900 px-1 py-0.5 rounded text-indigo-300">admin123</code>
-          </p>
-        </div>
       </div>
     </div>
   );
